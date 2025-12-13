@@ -1,0 +1,50 @@
+#+title: Pythonと静岡とわたし
+#+subtitle: PyCon mini Shizuoka 2026
+#+author: Atsushi Odagiri
+#+BEAMER_THEME: Boadilla
+#+BEAMER_COLOR_THEME: seahorse
+#+OPTIONS: H:2 toc:t num:t
+#+OPTIONS: ^:{}
+#+LaTeX_CLASS: beamer
+#+LATEX_CLASS_OPTIONS: [aspectratio=169]
+#+LaTeX_HEADER: \usepackage{luatexja}
+* はじめに
+** お前誰よ
+* 静岡とわたし
+** 実家とか高専とかバイトとか
+- 西部中部東部伊豆
+** devcampとか
+- 富士で開催された
+- 初参加
+** ShizuPyとか
+- PyConJPより先にShizuPyでパッケージングの話をした
+- パッケージングの今と未来
+** 話そうとしてから１年以上
+- 後半は PyCon mini 東海 2024で！
+* micro pypi aka simple repository
+** PyCon mini Shizuoka 2025
+- 欠席
+** 話そうとしてたやつ
+- pypi
+- 九州で話したもののリファイン
+** ハイライト
+- じゃあpythonじゃなくても作れるんじゃね
+- Language of the Yearなあの言語とか
+* お話1
+** メモ
+- メモ
+* お話2
+** メモ
+- メモ
+* お話3
+** メモ
+- メモ
+
+* まとめ
+** メモ
+- メモ
+
+* 参考文献
+** メモ
+- メモ
+
