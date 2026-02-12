@@ -34,6 +34,15 @@
 ** メモ
 - メモ
 * テキスト処理を極める
+** テキスト処理への思い
+
+- 古いPython
+  - 3.8 くらいはまだあるのかも
+- さらになんかpipできないとかpypiにつなげられないとか
+- 古いからといってなにかできなくなるわけではない
+- 便利なスクリプトという側面
+- 標準ライブラリで乗り切る！
+
 ** テキスト処理の種類
 
 - フィルタ
@@ -59,19 +68,46 @@
 - 構造自体がデータとして意味を持つ
   - ディレクトリを超えてそれっぽい名前同士でなんかまとめるとか
 ** osモジュールでファイルシステムを駆け抜ける
+- os.path.listdir
+- os.walk
+- stat
 ** pathモジュールでファイルシステムを駆け抜ける
+
+** shutil
+- rmtree
+  - 他になにかありましたっけ？
+** tempfile
+- 一度では処理しきれない
+- 途中経過みないとわからん
 ** 駆け抜けられない！
 
 - ファイルシステムの文字コード
 - ファイルの中身とは別
 - 結構だめな名前をつけれる
 - ~🍣~ ディレクトリとかな！
+** csvでいいです...
+
 ** テキスト処理の飛び道具 正規表現
 ** 正規表現の基本
 ** 正規表現の応用 キャプチャと参照
 ** 正規表現の応用 ゼロ幅アサーション
+** dictのことをもっと
+- dataclassesとかpydanticはおいといて
+- 追加順の保証はあるけども
+- 存在チェックは ~in~ か ~get~ か
+- set_default
+- dict comprephension
 ** itertoolsで処理しよう
+- chain
+- take
 ** functoolsとoperator
+- reduce
+- cache
+- lru_cache
+- partial
+- singledispatch
+  - structured pattern matchないからね！
+- itemgetter
 ** generatorを怖がらない
 ** メモ
 - メモ
@@ -104,6 +140,13 @@
 
 ** async generator
 
+- そもそもgeneratorで成り立っているpythonのcoroutine
+- さらにそこをgeneratorにする
+- ~yield from await~ とかできない(三単語の予約語はパーサーが対応していない模様)
+  - ~yield from (await)~ はどうか？
+  - そもそも async コルーチンの中で ~yield from~ を使えない
+  - ~await~ がもともと ~yeild from~ の特殊化だから
+  - 自分で ~next~ なり ~async for~ して ~yield~ しましょう
 ** あ、sendできるんだ
 
 - ~asend~
