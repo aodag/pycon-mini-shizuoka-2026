@@ -88,8 +88,32 @@
 ** csvでいいです...
 
 ** テキスト処理の飛び道具 正規表現
+- regex
+  - むかーしのpythonの標準ライブラリのモジュール
+- re
+  - 今のpythonの標準ライブラリに入ってるモジュール
+- regex
+  - ユニコードクラスなど拡張されているサードパーティ製モジュール
 ** 正規表現の基本
+
+- ~.~
+- ~*~
+- ~|~
+
+** 正規表現の基本 文字クラス
+
+- ~\d~ ~\D~
+- ~\w~ ~\W~
+- ~\s~ ~\S~
+
+** search?match?
+- MULTILINEモード
+- ~^~ ~$~ の意味の変わり方
 ** 正規表現の応用 キャプチャと参照
+- キャプチャグループ
+- 前方参照子 ~(~ を左から順に数える
+- やってられるか！
+- 名前付きキャプチャ
 ** 正規表現の応用 ゼロ幅アサーション
 ** dictのことをもっと
 - dataclassesとかpydanticはおいといて
@@ -99,6 +123,7 @@
 - dict comprephension
 ** itertoolsで処理しよう
 - chain
+  - flatten, select manyとしての使い方
 - take
 ** functoolsとoperator
 - reduce
@@ -108,6 +133,12 @@
 - singledispatch
   - structured pattern matchないからね！
 - itemgetter
+** 意外な関数
+
+- all, any
+- reversed, sorted
+- enumerate, range
+- chr, ord
 ** generatorを怖がらない
 ** メモ
 - メモ
