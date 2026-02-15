@@ -22,17 +22,33 @@
 ** 話そうとしてから１年以上
 - 後半は PyCon mini 東海 2024で！
 * micro pypi aka simple repository
-** PyCon mini Shizuoka 2025
+** PyCon mini Shizuoka 2025 continue
 - 欠席
 ** 話そうとしてたやつ
 - pypi
 - 九州で話したもののリファイン
+- [[https://kyushu.pycon.jp/2024/][PyCon Kyushu 2024]] パッケージを配ろう
 ** ハイライト
 - じゃあpythonじゃなくても作れるんじゃね
-- Language of the Yearなあの言語とか
-* お話1
-** メモ
-- メモ
+- ~micropypi-?s~
+
+** micropypi-?s
+
+- Language of the Year
+- haskellですね
+- https://git.sr.ht/~aodag/micropypi-hs
+
+** 熟成
+
+- PyCon Kyushu 2024.5.25
+- PyCon mini Shizuoka 2024 中止 2024.8.31
+- PyCon mini Shizuoka 2024 continue  2025.2.8
+- 賞味期限切れだろ
+
+** パッケージング
+
+- 今日はもうパッケージングの話しない
+
 * テキスト処理を極める
 ** テキスト処理への思い
 
@@ -139,9 +155,12 @@
 - reversed, sorted
 - enumerate, range
 - chr, ord
-** generatorを怖がらない
-** メモ
-- メモ
+** ジェネレーター
+
+- iteratorの要素を一つ取り出す(~next~)タイミングで処理する
+- ちょっとずつ処理
+- なんどもlistを作るよりメモリ効率はいいかも
+
 * ジェネレーターを極める
 
 ** 簡単ジェネレーター
@@ -161,6 +180,11 @@
 - accumlator 加算器
 - RS,JKフリップフロップ
 
+** close呼ばれたときに処理する
+
+- ~GeneratorExit~
+- ~return~
+
 ** send をつなぐ
 
 - 直列
@@ -168,6 +192,22 @@
 - 並列
   - なにするか
 ** こいつメッセージパッシングできるんじゃね？
+
+#+begin_src python
+  def bankaccount(probe: Generator[None, int|str, None], balance: int=0) -> Generator[int, Message, None]:
+      try:
+          while True:
+              probe.send(balance)
+              msg = yield
+              match msg:
+                  case Deposit(amount):
+                      balance += amount
+                  case Withdraw(amount):
+                      balance -= amount
+      except GeneratorExit:
+          probe.send("shutdown bankaccount")
+          return balance
+#+end_src
 
 ** async generator
 

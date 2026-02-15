@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Generator
 
 @dataclass
 class Deposit:
@@ -54,6 +55,6 @@ ba.send(Deposit(10))
 ba.send(Deposit(13))
 ba.send(Withdraw(9))
 
-ba.close()
-pa.close()
-ha.close()
+print("ba", ba.close())
+print("pa", pa.close())
+print("ha", ha.close())
