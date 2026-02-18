@@ -170,6 +170,36 @@
 
 - 集計など情報を溜め込む場所が必要
 
+** map, filter, reduce
+
+- map １要素ずつの変換
+- filter 要素の取捨選択
+- reduce 複数要素にまたがる処理
+
+- filterした結果をmapしてreduceでまとめる
+
+
+** 内包表記
+
+- 要はmapとfilter
+
+#+begin_src python
+  # list comprephensive
+  >>> [x * 2 for x in range(10) if x % 3 == 0]
+  [0, 6, 12, 18]
+  # map filter
+  >>> list(map(lambda x: x * 2, filter(lambda x: x % 3 == 0, range(10))))
+  [0, 6, 12, 18]
+  # for loop
+  >>> result = []
+  >>> for x in range(10):
+  ...     if x % 3 == 0:
+  ...         result.append(x * 2)
+  ...         
+  >>> result
+  [0, 6, 12, 18]
+      
+#+end_src
 
 ** 出力する
 
@@ -190,6 +220,21 @@
   - 値の形式
     - 想定外の形式で正規表現にマッチしない
     - ずさんに無視すると後段になってからエラーとか
+  - ~#~ で始まる行は無視してください
+    - ~"#"~
+    - ~'#~
+
+** 並列処理
+
+- mapは並列処理可能だが...
+- async/await あんまり効果ない
+  - non blocking IO でIO処理中に別の処理でCPUを使う
+  - 無駄時間を減らす方法
+- プリエンプティブなスレッド
+  - ~conncurrent.futures~
+  - GILのせいで真の実際に並列にはならない
+  - 現状GIL freeなpythonが入ってるサーバーは皆無
+- numpyとかGIL開放のC拡張呼ぶなら意味はある
 
 ** ジェネレーター
 
