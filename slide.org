@@ -16,15 +16,34 @@
 ** 高専 UNIXとの出会い
 * 去年のリベンジ
 ** pypiをあれで
-* テキスト処理を極める
+* スクリプトとしてーー
 ** スクリプトの底力
+** fileinput
+** argparse, optparse, click
+* 入出力
 ** パイプフィルターの一員として：標準入出力
 ** ファイル入出力：文字コードとかあんまり気にしなくなったかも
-** ファイルシステム：パスもデータとして加工
+** ファイルシステム：パスもデータとして加工 ファイル名もデータのうち
+** 一時ファイルに出してmoveする
+* テキスト処理
+** strだけでがんばれる範囲
 ** 正規表現：テキスト処理の飛び道具
-** iteratorとgenerator
+** regex, re, そしてまたregex
+** 正規表現：名前付きキャプチャ
+** 正規表現：アトミックゼロ幅アサーション
+** csvでいいです
+* データ加工
 ** itertoolsとfunctoolsとoperator
 ** mapとreduceとfilter: 内包表記と比較
+* ジェネレーター
+** iteratorとgenerator
 ** generatorの真価： sendとcloseでアキュムレータ
+* 並列処理
+** asyncioは速くない
+** threadingやconcurrent.futuresはGILのせいで速くない
+** GIL解除するなら速い！でもnumpy自体そもそも速い
+* エラー処理
+** 進むか止めるか
+** ログ
 * おわりに
 ** まとめ
