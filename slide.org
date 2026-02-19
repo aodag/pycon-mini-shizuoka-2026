@@ -64,6 +64,18 @@
 - フィルタ
 - 結合
 - なんかよくわかんないのをわかるようになんとかする
+- そもそもファイル名をテキスト処理しないといけないとか
+** 入出力
+
+- ファイルを開いて行ごとに処理して出力
+- 関数の引数と戻り値
+- 関数内でファイルを開いて処理すると関数シグネチャに現れない
+
+** 出力を集める
+
+- 集計など情報を溜め込む場所が必要
+
+
 ** ファイルを開くのは誰？
 
 - 単体のスクリプトとして
@@ -73,42 +85,52 @@
   - 標準出力に流す
 - まあ両方できるのがいいけども
   - ファイル名に ~-~ を渡されたら標準入力を扱うって期待されがち
+
 ** ファイルか端末か
 
 - ~isatty~
 - ttyじゃないなら過剰な装飾はやめましょう
   - ttyだったら？お好きなように！
+** ファイル名を突き止める処理から
+
+- 日付ベースでファイル名を作る
+- 内容に応じてディレクトリ階層を作る
+- ファイル名が入ってるインデックスファイル
+- 処理中にファイルを開く
 ** ファイルシステムを駆け抜ける
 
 - ディレクトリ構造も複雑化
 - 構造自体がデータとして意味を持つ
   - ディレクトリを超えてそれっぽい名前同士でなんかまとめるとか
+
 ** osモジュールでファイルシステムを駆け抜ける
 - os.path.listdir
 - os.walk
 - stat
 ** pathモジュールでファイルシステムを駆け抜ける
 
-** shutil
-- rmtree
-  - 他になにかありましたっけ？
-** tempfile
-- 一度では処理しきれない
-- 途中経過みないとわからん
 ** 駆け抜けられない！
 
 - ファイルシステムの文字コード
 - ファイルの中身とは別
 - 結構だめな名前をつけれる
 - ~🍣~ ディレクトリとかな！
+** shutil
+- rmtree
+  - 他になにかありましたっけ？
+** tempfile
+- 一度では処理しきれない
+- 途中経過みないとわからん
 ** csvでいいです...
 
 ** テキスト処理の飛び道具 正規表現
 - regex
-  - むかーしのpythonの標準ライブラリのモジュール
-- re
+  - むかーし(1.4まで)のpythonの標準ライブラリのモジュール
+  - [[https://www.python.org/download/releases/1.5/whatsnew/][What's new in Python 1.5 and beyond]]
+    - The new "re" module (Perl style regular expressions) is here. It is based on Philip Hazel's pcre code; the Python interfaces were put together by Andrew Kuchling. The regex module is declared obsolete.
+- [[https://docs.python.org/3/library/re.html][re]]
   - 今のpythonの標準ライブラリに入ってるモジュール
-- regex
+- [[https://pypi.org/project/regex/][regex]]
   - ユニコードクラスなど拡張されているサードパーティ製モジュール
 ** 正規表現の基本
 
@@ -155,20 +177,6 @@
 - reversed, sorted
 - enumerate, range
 - chr, ord
-** ファイル名を突き止める処理から
-
-- ファイル名が入ってるインデックスファイル
-- 処理中にファイルを開く
-
-** 入出力
-
-- ファイルを開いて行ごとに処理して出力
-- 関数の引数と戻り値
-- 関数内でファイルを開いて処理すると関数シグネチャに現れない
-
-** 出力を集める
-
-- 集計など情報を溜め込む場所が必要
 
 ** map, filter, reduce
 
@@ -215,6 +223,7 @@
 
 - ファイル読み込み
   - ファイルがない？
+  - ファイル名を計算して開くとかだと起きがち
 - 値の読み込み
   - 値がない
   - 値の形式
@@ -246,6 +255,23 @@
 
 ** 簡単ジェネレーター
 
+#+begin_src python
+  >>> result = []
+  >>> for x in range(10):
+  ...     if x % 3 == 0:
+  ...         result.append(x * 2)
+  ...         
+  >>> result
+  [0, 6, 12, 18]
+  >>> def g():
+  ...     for x in range(10):
+  ...         if x % 3 == 0:
+  ...             yield x * 2
+  >>> list(g())
+  [0, 6, 12, 18]
+#+end_src
+
+
 ** ジェネレーターとエラー
 
 - ジェネレーターはちょっとずつ処理
@@ -269,6 +295,35 @@
 
 - accumlator 加算器
 - RS,JKフリップフロップ
+
+** 加算器
+
+#+begin_src python
+  >>> def accum():
+  ...     v = 0
+  ...     try:
+  ...         while True:
+  ...             v += (yield v)
+  ...     except GeneratorExit:
+  ...         return v
+#+end_src
+
+** sendメソッド
+- 最初の ~yield~ まで実行させるために ~None~ を ~send~ するのが決まり
+
+#+begin_src python
+  >>> acc = accum()
+  >>> acc.send(None)
+  0
+  >>> acc.send(1)
+  1
+  >>> acc.send(5)
+  6
+  >>> acc.send(3)
+  9
+  >>> acc.close()
+  9
+#+end_src
 
 ** close呼ばれたときに処理する
 
@@ -311,6 +366,16 @@
 ** あ、sendできるんだ
 
 - ~asend~
+** generator, reduce, 素朴なforループ
+
+- generator
+  - sendで値を受け取って内部状態を更新できる
+  - closeで最終値を返す
+- reduce
+  - コンテキストと新たな値を同時にうけとり新しいコンテキストを作る
+  - 最後のコンテキストを返す
+- 素朴なforループ
+  - ループ中に手続き的に変数やオブジェクトを更新
 
 * まとめ
 ** メモ
