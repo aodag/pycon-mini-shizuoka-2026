@@ -8,3 +8,23 @@
 #+LaTeX_CLASS: beamer
 #+LATEX_CLASS_OPTIONS: [aspectratio=169]
 #+LaTeX_HEADER: \usepackage{luatexja}
+* Pythonと静岡とわたし
+* はじめに
+** お前誰よ
+* 静岡とわたし
+** 磐田と沼津：あとたまに清水と伊豆
+** 高専 UNIXとの出会い
+* 去年のリベンジ
+** pypiをあれで
+* テキスト処理を極める
+** スクリプトの底力
+** パイプフィルターの一員として：標準入出力
+** ファイル入出力：文字コードとかあんまり気にしなくなったかも
+** ファイルシステム：パスもデータとして加工
+** 正規表現：テキスト処理の飛び道具
+** iteratorとgenerator
+** itertoolsとfunctoolsとoperator
+** mapとreduceとfilter: 内包表記と比較
+** generatorの真価： sendとcloseでアキュムレータ
+* おわりに
+** まとめ
