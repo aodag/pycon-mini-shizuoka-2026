@@ -19,6 +19,17 @@
 * スクリプトとしてーー
 ** スクリプトの底力
 ** fileinput
+- コマンドライン引数から順にファイルを開く
+- コマンドライン引数がなければ標準入力
+- コマンドライン中の ~-~ は標準入力と解釈
+- 一行ずつ返すiterator
+
+#+begin_src python
+  import fileinput
+  for line in fileinput.input(encoding="utf-8"):
+      process(line)
+#+end_src
+* コマンドラインオプション
 ** argparse, optparse, click
 * 入出力
 ** パイプフィルターの一員として：標準入出力
