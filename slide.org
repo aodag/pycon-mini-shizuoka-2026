@@ -12,17 +12,53 @@
 * はじめに
 ** お前誰よ
 * 静岡とわたし
-** 磐田と沼津：あとたまに清水と伊豆
+** 静岡とわたし
+
+- 出身です
+- どちら側か？
+
+** - '95 磐田たまに清水
+** '95 - '00 沼津たまに伊豆
+** どちら側か？
+
+- 山奥以外
+
 ** 高専 UNIXとの出会い
-** devcamp
-** shizupy
+** 2006 devcamp
+- Python Developers Camp 2006 Summer
+- 富士開催
+- Pythonのオフラインイベント初参加
+  - Zopeには名古屋で大学時代に参加
+
+** 2013 shizupy
+- [[http://blog.kzfmix.com/entry/1373146646][Shizuoka.py #2]] 2013.07
+  - パッケージングの今と未来 を初披露
+  - pycon apac 2013 の発表へ
+  - ここから10年くらいパッケージングの話を続けることになる
 
 ** shizuoka 2024 continue
 ~(´・ω・｀)~
 
 * 去年のリベンジ
-** pycon kyushu 2024 パッケージを配ろう
-** pypiをあれで
+** 去年のリベンジ
+
+- pycon kyushu 2024 パッケージを配ろう
+- pycon mini shizuoka 2025 パッケージを配ろう
+
+** 去年
+
+- pycon mini shizuoka 2025
+  - 台風
+- pycon mini shizuoka 2025 continue
+  - お腹壊した
+- もう流用なんてしないよ絶対
+
+** python packaging repositoryをあれで
+
+- micropypi-?s
+- まあやってみてはあります。
+  - https://git.sr.ht/~aodag/micropypi-hs
+
 * スクリプトとしてーー
 ** スクリプトの底力
 ** fileinput
