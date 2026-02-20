@@ -3,12 +3,13 @@
 #+author: Atsushi Odagiri
 #+BEAMER_THEME: Boadilla
 #+BEAMER_COLOR_THEME: seahorse
+#+BEAMER_HEADER: \AtBeginSection[]{\begin{frame}<beamer>\frametitle{Presentat‌​‌​ion agenda}\tableofcontents[currentsection]\end{frame}}
 #+OPTIONS: H:2 toc:t num:t
 #+OPTIONS: ^:{}
 #+LaTeX_CLASS: beamer
 #+LATEX_CLASS_OPTIONS: [aspectratio=169]
 #+LaTeX_HEADER: \usepackage{luatexja}
-* Pythonと静岡とわたし
+
 * はじめに
 ** お前誰よ
 * 静岡とわたし
@@ -18,12 +19,40 @@
 - どちら側か？
 
 ** - '95 磐田たまに清水
-** '95 - '00 沼津たまに伊豆
+- 磐田
+  - 実家
+  - かなり北、東名通ってるくらいのとこ
+- 清水
+  - 父方実家
+  - まあ盆暮れ正月くらいにだいたい
+
+** '95 - '00 沼津(長泉町)たまに伊豆
+- 沼津
+  - 高専
+  - 寮は道を挟んで長泉町
+- 伊豆
+  - バイト
+  - 修善寺とか伊東とか
+
 ** どちら側か？
 
 - 山奥以外
 
 ** 高専 UNIXとの出会い
+
+- 高専演習室
+  - SPARC置いてあった
+  - その後PCにリプレースされてLinuxとWindows NTのデュアルブートになってた
+- 卒業研究の研究室
+  - Linux使う
+  - UNIXコマンドとパイプアンドフィルターを知る
+  - emacsでヒャッハーする
+
+** 青春グラフィティ後編
+- そして高専卒業後は豊橋名古屋と愛知を中心に
+- 続きはPyCon mini 東海 2025で！
+  - もうやっちゃったんだよ結局(´・ω・｀)
+
 ** 2006 devcamp
 - Python Developers Camp 2006 Summer
 - 富士開催
@@ -53,14 +82,36 @@
   - お腹壊した
 - もう流用なんてしないよ絶対
 
-** python packaging repositoryをあれで
+** パッケージを配ろう 超抜粋版
 
-- micropypi-?s
+- パッケージを配るためのsimple repositoryという仕組み
+  - PEPを実装して実際に利用可能な実装を作れるのか？
+- これ、pythonじゃなくても作れるよね？
+- python packaging repositoryをあれで
+  - micropypi-?s
 - まあやってみてはあります。
   - https://git.sr.ht/~aodag/micropypi-hs
 
 * スクリプトとしてーー
 ** スクリプトの底力
+
+- 昨今のpythonの広さ
+  - データ処理
+  - ツール、ユーティリティ
+  - webアプリケーション
+  - AI
+- もっと日常的な
+  - シェルスクリプトより強力
+  - 標準ライブラリを活用
+
+** スクリプトの底力
+- スクリプトの使い道
+  - テキスト処理
+  - ファイル処理
+- ファイル一つのツール
+  - ~~/bin~ に置いとく
+  - UNIXコマンドとともにパイプアンドフィルターの一員
+
 ** fileinput
 - コマンドライン引数から順にファイルを開く
 - コマンドライン引数がなければ標準入力
