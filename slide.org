@@ -12,6 +12,15 @@
 
 * はじめに
 ** お前誰よ
+- Atsushi Odagiri
+- aodag
+- Python歴
+  - 1.5くらいから
+
+#+ATTR_LATEX: :width 2cm
+[[./r-penta512.png]]
+
+
 * 静岡とわたし
 ** 静岡とわたし
 
@@ -92,7 +101,7 @@
 - まあやってみてはあります。
   - https://git.sr.ht/~aodag/micropypi-hs
 
-* スクリプトとしてーー
+* スクリプトとして――
 ** スクリプトの底力
 
 - 昨今のpythonの広さ
@@ -140,7 +149,7 @@
 - まあargparse使っとけばいいでしょう
 ** argparse
 
-- 今どきならPathで受けてしまうのが楽でしょう
+- 今どきなら ~pythlib~ で受けてしまうのが楽でしょう
 
 #+begin_src python
   >>> import pathlib
@@ -211,6 +220,7 @@
 - getpassがあるが
 - できればlibsecretとかで読み込みたい
 - 標準ライブラリでやるならgetpassしかないけども
+- 無理せず別のコマンドに任せる
 
 * 入出力
 ** パイプフィルターの一員として：標準入出力
@@ -221,6 +231,7 @@
   - ttyじゃないかもしれないことに注意
 - sys.stderr
   - パイプアンドフィルターにいれるならエラーメッセージやログはこちらに出しましょう
+
 ** 標準入出力とファイルディスクリプタ
 
 - ~2>&1~ とか見たことあるかな？
@@ -237,33 +248,67 @@
   - フィルタする処理と実際にファイルを開く処理はわけましょう
 - パス名を構築しながら処理する必要があるかも
   - パス名を構築する処理だけの関数やジェネレーターにしましょうね
-** TODO ファイルシステムを駆け抜ける
-- os.walk
-- pathlib glob
-  - walkが最近追加された
 
-** TODO 一時ファイルに出してmoveする
-- 前のファイルに上書きしてたらエラーになって、さらに前回のファイルも消えました＞＜
+** 一時ファイルに出してmoveする
+- 書き出すときのファイル名やパスが重要な場合とかいったん一時ディレクトリに出力する
 - tempfile
   - mkdtemp
-  - mkstemp
+- そっからどうするか
 - os.rename
   - 同じファイルシステム上じゃないとだめよ
   - tmpfsからext4なホームディレクトリ以下はエラーになる
+- 別なファイルシステムからだと？
+  - 全部コピーですよもちろん
+
 * テキスト処理
-** strだけでがんばれる範囲
-** 正規表現：テキスト処理の飛び道具
-** regex, re, そしてまたregex
+** Pythonの正規表現
+- regex
+  - 1.4まで標準ライブラリに入っていた正規表現モジュール
+- re
+  - 現在の標準ライブラリに入っている正規表現モジュール
+- regex
+  - ユニコードクラスや拡張が追加されているサードパーティモジュール
+  - 標準ライブラリ入りを目指してたと思うんだけど....
+** これだけ知っとけ正規表現：テキスト処理の飛び道具
+- ~.~ :任意の一文字にマッチ
+- ~*~ :直前の正規表現0個以上にマッチ
+- ~|~ : どちらかの正規表現にマッチ
+- ~[]~ :囲んだ中の文字のどれかにマッチ
+- ~^~ :文字列の先頭
+- ~$~ :文字列の終端
+- ~()~ :囲んだ正規表現で ~*~ とかの対象
 ** 正規表現：名前付きキャプチャ
 - ~()~ でキャプチャしたのを置換文字列で使う
   - ~\g<1>~ とか..
   - 左から ~(~ の位置で番号がついてる
   - つまり正規表現をちょっと直したら番号がずれる
+  - あとキャプチャ以外の目的で ~()~ 使うことが多いので後から消していいかわからなくなる
   - やっれられん
 - 名前つけましょう
   - ~(?P<name>...)~
   - ~\g<name>~ でいい
   - ずれない！ :)
+  - キャプチャ目的なのが一目瞭然！
+** HTMLの中からリンクを抜き出す
+- ちゃんとしたプロダクトにするならbeautifulsoupとか専用のパーサー使うところですが
+- 手元で動けばいいんじゃい！というDIYとown your riskで！
+#+begin_src python
+  >>> s = """
+  ... <html>
+  ... <body>
+  ... <ul>
+  ... <li><a href="https://example.com">example</a></li>
+  ... <li><a href="https://docs.python.org" target="_blank">Python Document</a></li>
+  ... </ul>
+  ... </body>
+  ... </html>
+  ... """
+  >>> for m in re.finditer(r"<a\s([^>]*)href=\"(?P<link>[^>\"]*)\"([^>]*)>", s):
+  ...     print(m.groupdict())
+  ...     
+  {'link': 'https://example.com'}
+  {'link': 'https://docs.python.org'}
+#+end_src
 ** 正規表現：沼
 - 先読みとか後読みとかのパターン
 - 文字クラス
@@ -274,7 +319,9 @@
   - excelだけでなんかしといて
 * データ加工
 ** itertoolsとfunctoolsとoperator
-** mapとreduceとfilter: 内包表記と比較
+- iterator/iterable をつなげたり組み合わせたり
+  - ~chain~ や ~groupby~ は覚えておこう
+- ~lambda x: x["a"]~ とか書くなら ~itemgetter("a")~ で！
 * ジェネレーター
 ** フィルタを止めないで
 #+begin_src python
@@ -307,13 +354,84 @@ b processed
 - EOFがくるまでforループが終わらない
 - 特に標準入力を読むときはEOFを待ってから処理するとパイプアンドフィルターが詰まる
 
+** generatorへの入力: yieldが返す値
+- ちょっとずつ処理する = ちょっとずつ値が帰ってくるだけではない
+- ちょっとずつ入力する
+  - ~yield~ で値を受け取る
+- 加算器の例
+#+begin_src python
+  def accum():
+      v = 0
+      try:
+          while True:
+              v += yield
+      except GeneratorExit:
+          return v
+#+end_src
+
+- ~GeneratorExit~ なんてどこで発生するんだよ！？
+  - ~yield~ からです
+
 ** generatorへの入力： sendとcloseでアキュムレータ
+
+- sendメソッドで値を送るとgeneratorの中でyieldが返す値になる
+- closeを呼ぶと中でGeneratorExit例外が発生するのでexceptしてreutrnさせる
+#+begin_src python
+  >>> a = accum()
+  >>> a.send(None)
+  >>> a.send(13)
+  >>> a.send(47)
+  >>> a.send(100)
+  >>> a.close()
+  160
+#+end_src
 * 並列処理
 ** asyncioは速くない
+- 協調スレッドによる並列処理
+- IOを待ってる間にCPUを別のタスクで使う
 ** threadingやconcurrent.futuresはGILのせいで速くない
-** GIL解除するなら速い！でもnumpy自体そもそも速い
+- 結局CPU使えてもGILのせいでタイムシェアリング的に動く
+- Pythonオブジェクトに触れる限りはあんまり速くない
+  - GIL Freeでどうなるか試そうかどうか
+- てかパイプアンドフィルターの中で並列処理したくない
+  - ネットワーク待ちがあるとかだったら少しかんがえるかも
+** GIL解除！
+- numpyとかC拡張の先で計算処理自体がPythonオブジェクト触らないやつ
+  - 安定してるGIL解除
+- concurrent.futuresでがんがんスレッドプールに投げようぜ！
+- でもnumpyにしただけでだいたい速いので別に並列化しなくていいかも
 * エラー処理
-** 進むか止めるか
-** ログ
+** エラーが起きたら
+- とりあえずなにもせずにインタプリタに任せる
+- 例外のエラーメッセージ出してくれるし、終了ステータスもエラーになるし
+** 自分で例外処理する？
+- これじゃだめなの
+
+#+begin_src python
+  def main():
+      try:
+          process():
+      except Exception as e:
+          logger.exception(e)
+              
+#+end_src
+
+- プロセスの終了ステータスが正常終了になってしまう
+  - え？このAPIはエラーメッセージがレスポンスボディに入ってるのに200 OK返すんですか？
+** 自分で例外処理するなら
+- 自分でやるなら ~sys.exit(255)~ で異常終了にしましょう
+#+begin_src python
+  def main():
+      try:
+          process():
+      except Exception as e:
+          logger.exception(e)
+          sys.exit(255)
+#+end_src
 * おわりに
 ** まとめ
+- 標準ライブラリ LOVE <3
+- UNIX哲学とパイプアンドフィルターも知ってみて
+- スクリプトかけない人はAIにやらせればいいです
+** 参考文献
+- [[https://docs.python.org/3/][Python documentation]]
