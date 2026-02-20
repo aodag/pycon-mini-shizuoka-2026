@@ -276,8 +276,38 @@
 ** itertoolsとfunctoolsとoperator
 ** mapとreduceとfilter: 内包表記と比較
 * ジェネレーター
-** iteratorとgenerator
-** generatorの真価： sendとcloseでアキュムレータ
+** フィルタを止めないで
+#+begin_src python
+  def listed_process():
+      return [(line.strip() + " processed") for line in sys.stdin]
+#+end_src
+#+begin_src python
+  def gen_process():
+      return ((line.strip() + " processed") for line in sys.stdin)
+#+end_src
+** なにが違うの
+- リストの場合
+#+begin_example
+a
+b
+^D
+a processed
+b processed
+#+end_example
+- ジェネレーターの場合
+#+begin_example
+a
+a processed
+b
+b processed
+^D
+#+end_example
+** パイプアンドフィルターではgeneratorを使おう
+- listなどにしてしまうとforループが終わるまで処理が進まない
+- EOFがくるまでforループが終わらない
+- 特に標準入力を読むときはEOFを待ってから処理するとパイプアンドフィルターが詰まる
+
+** generatorへの入力： sendとcloseでアキュムレータ
 * 並列処理
 ** asyncioは速くない
 ** threadingやconcurrent.futuresはGILのせいで速くない
