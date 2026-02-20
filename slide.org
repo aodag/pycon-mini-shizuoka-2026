@@ -113,6 +113,9 @@
   - UNIXコマンドとともにパイプアンドフィルターの一員
 
 ** fileinput
+
+- [[https://docs.python.org/3/library/fileinput.html][fileinput]] モジュール
+  - 結構昔からある
 - コマンドライン引数から順にファイルを開く
 - コマンドライン引数がなければ標準入力
 - コマンドライン中の ~-~ は標準入力と解釈
@@ -123,13 +126,130 @@
   for line in fileinput.input(encoding="utf-8"):
       process(line)
 #+end_src
-* コマンドラインオプション
+
+- それなりに便利
+- ファイル以外のコマンドライン引数使えないけども
+
+* スクリプトの最初の最初
 ** argparse, optparse, click
+
+- optparseがまだ残っている
+- argparseではできないことがあるという話
+- argpaseにできてclickでできないこともある
+- clickをわざわざインストールするかっていうと？
+- まあargparse使っとけばいいでしょう
+** argparse
+
+- 今どきならPathで受けてしまうのが楽でしょう
+
+#+begin_src python
+  >>> import pathlib
+  >>> import argparse
+  >>> parser = argparse.ArgumentParser()
+  >>> parser.add_argument("-d", "--directory", type=pathlib.Path)
+  _StoreAction(...)
+  >>> parser.add_argument("files", nargs="+", type=pathlib.Path, metavar="FILE\
+  ")
+  _StoreAction(...)
+  >>> parser.parse_args(["-d", "a", "b", "c"])
+  Namespace(directory=PosixPath('a'), files=[PosixPath('b'), PosixPath('c')])
+#+end_src
+** argparseのサブコマンド
+- サブコマンド作るくらいなら、entrypointになるモジュールを別にしとけとは思いますが
+- ~~/bin~ にファイル1つで置いときたいという趣旨があるので
+- add_subparsersでサブコマンド向けのパーサーを追加
+- サブコマンド向けのパーサーにサブコマンドを追加してさらにその引数を追加
+- サブコマンドごとに処理を分岐する方法がいくつか
+  - subparserにset_defaultsで処理関数を渡す
+  - add_subparsersのdestでサブコマンド名を受け取るようにする
+
+** argparseでサブコマンド その１
+
+- add_subparsersのdestでサブコマンド名を受け取るようにする
+- enumつかいたくなるけど、あんまり良い方法思いつかない
+
+#+begin_src python
+  subparsers = parser.add_subparsers(required=True, dest="action")
+  init_parser = subparsers.add_parser("init")
+  run_parser = subparsers.add_parser("run")
+  args = parser.parse_args()
+  match args.action:
+      case "init":
+          init(args)
+      case "run":
+          run(args)
+      case _:
+          parser.print_help()
+#+end_src
+
+** argpaseでサブコマンド その２
+
+- サブパーサーのset_defaultsで処理関数を渡しておく
+
+#+begin_src python
+  subparsers = parser.add_subparsers(required=True, dest="action")
+  init_parser = subparsers.add_parser("init")
+  init_parser.set_defaults(func=init)
+  run_parser = subparsers.add_parser("run")
+  run_parser.set_defaults(func=run)
+  args = parser.parse_args()
+  args.func(args)
+#+end_src
+
+** 設定ファイル configparser, tomllib
+- tomllibは3.11から
+  - ああ、あのサーバーには入ってないってことね...
+- configparser
+  - ずっとある。2.7でも使えるぞ！
+  - 2.7で使うならSafeConfigparserを使おうね
+- まあjsonでもなんでも良いし環境変数でつきすすむのもそれはそれで
+  - json
+  - os.environ
+
+** パスワード入力
+
+- getpassがあるが
+- できればlibsecretとかで読み込みたい
+- 標準ライブラリでやるならgetpassしかないけども
+
 * 入出力
 ** パイプフィルターの一員として：標準入出力
-** ファイル入出力：文字コードとかあんまり気にしなくなったかも
+
+- sys.stdin
+- sys.stdout
+  - とりあえずprintしてればstdoutに出る
+  - ttyじゃないかもしれないことに注意
+- sys.stderr
+  - パイプアンドフィルターにいれるならエラーメッセージやログはこちらに出しましょう
+** 標準入出力とファイルディスクリプタ
+
+- ~2>&1~ とか見たことあるかな？
+  - 0 標準入力
+  - 1 標準出力
+  - 2 エラー出力
+- ~2>&1~ はエラー出力を標準出力に出してという意味
+- え、どっちもコンソールに出るのでは？
+- 通常のパイプやリダイレクトは標準出力だけに効く
+- エラー出力もパイプを通したいときに使う
+
 ** ファイルシステム：パスもデータとして加工 ファイル名もデータのうち
-** 一時ファイルに出してmoveする
+- パス名をフィルタして処理するかどうか判別
+  - フィルタする処理と実際にファイルを開く処理はわけましょう
+- パス名を構築しながら処理する必要があるかも
+  - パス名を構築する処理だけの関数やジェネレーターにしましょうね
+** TODO ファイルシステムを駆け抜ける
+- os.walk
+- pathlib glob
+  - walkが最近追加された
+
+** TODO 一時ファイルに出してmoveする
+- 前のファイルに上書きしてたらエラーになって、さらに前回のファイルも消えました＞＜
+- tempfile
+  - mkdtemp
+  - mkstemp
+- os.rename
+  - 同じファイルシステム上じゃないとだめよ
+  - tmpfsからext4なホームディレクトリ以下はエラーになる
 * テキスト処理
 ** strだけでがんばれる範囲
 ** 正規表現：テキスト処理の飛び道具
