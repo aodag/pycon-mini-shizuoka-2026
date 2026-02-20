@@ -47,17 +47,19 @@
 
 - 山奥以外
 
-** 高専 UNIXとの出会い
+** 青春グラフィティ前編
 
-- 高専演習室
-  - SPARC置いてあった
+- 高専 UNIXとの出会い
+  - 演習室にSPARC置いてあった
   - その後PCにリプレースされてLinuxとWindows NTのデュアルブートになってた
 - 卒業研究の研究室
   - Linux使う
   - UNIXコマンドとパイプアンドフィルターを知る
   - emacsでヒャッハーする
+    - 今でもヒャッハー
 
 ** 青春グラフィティ後編
+
 - そして高専卒業後は豊橋名古屋と愛知を中心に
 - 続きはPyCon mini 東海 2025で！
   - もうやっちゃったんだよ結局(´・ω・｀)
@@ -78,31 +80,35 @@
 ~(´・ω・｀)~
 
 * 去年のリベンジ
-** 去年のリベンジ
+** 話そうとしたやつ
 
 - pycon kyushu 2024 パッケージを配ろう
 - pycon mini shizuoka 2025 パッケージを配ろう
+  - 流用
 
-** 去年
+** pycon mini shizuoka 2025
 
 - pycon mini shizuoka 2025
   - 台風
 - pycon mini shizuoka 2025 continue
   - お腹壊した
-- もう流用なんてしないよ絶対
+- もう流用なんてしないよ絶対 ~(´・ω・｀)~
 
-** パッケージを配ろう 超抜粋版
+** パッケージを配ろう pycon mini shizuoka 2025版 超抜粋版
 
 - パッケージを配るためのsimple repositoryという仕組み
   - PEPを実装して実際に利用可能な実装を作れるのか？
 - これ、pythonじゃなくても作れるよね？
 - python packaging repositoryをあれで
   - micropypi-?s
+** パッケージを配ろう pycon mini shizuoka 2025版 賞味期限切れ
+
 - まあやってみてはあります。
   - https://git.sr.ht/~aodag/micropypi-hs
 
 * スクリプトとして――
-** スクリプトの底力
+
+** 色々できるのはいいんですが
 
 - 昨今のpythonの広さ
   - データ処理
@@ -142,11 +148,12 @@
 * スクリプトの最初の最初
 ** argparse, optparse, click
 
-- optparseがまだ残っている
+- optparseがまだ標準ライブラリに残っている
 - argparseではできないことがあるという話
 - argpaseにできてclickでできないこともある
 - clickをわざわざインストールするかっていうと？
 - まあargparse使っとけばいいでしょう
+
 ** argparse
 
 - 今どきなら ~pythlib~ で受けてしまうのが楽でしょう
