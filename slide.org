@@ -83,25 +83,25 @@
 ** 話そうとしたやつ
 
 - pycon kyushu 2024 パッケージを配ろう
-- pycon mini shizuoka 2025 パッケージを配ろう
+- pycon mini shizuoka 2024 パッケージを配ろう
   - 流用
 
-** pycon mini shizuoka 2025
+** pycon mini shizuoka 2024
 
-- pycon mini shizuoka 2025
+- pycon mini shizuoka 2024
   - 台風
-- pycon mini shizuoka 2025 continue
+- pycon mini shizuoka 2024 continue
   - お腹壊した
 - もう流用なんてしないよ絶対 ~(´・ω・｀)~
 
-** パッケージを配ろう pycon mini shizuoka 2025版 超抜粋版
+** パッケージを配ろう pycon mini shizuoka 2024版 超抜粋版
 
 - パッケージを配るためのsimple repositoryという仕組み
   - PEPを実装して実際に利用可能な実装を作れるのか？
 - これ、pythonじゃなくても作れるよね？
 - python packaging repositoryをあれで
   - micropypi-?s
-** パッケージを配ろう pycon mini shizuoka 2025版 賞味期限切れ
+** パッケージを配ろう pycon mini shizuoka 2024版 賞味期限切れ
 
 - まあやってみてはあります。
   - https://git.sr.ht/~aodag/micropypi-hs
