@@ -9,6 +9,7 @@
 #+LaTeX_CLASS: beamer
 #+LATEX_CLASS_OPTIONS: [aspectratio=169]
 #+LaTeX_HEADER: \usepackage{luatexja}
+#+LaTeX_HEADER: \usepackage{minted2}
 
 * はじめに
 ** お前誰よ
@@ -281,9 +282,25 @@
 - ~*~ :直前の正規表現0個以上にマッチ
 - ~|~ : どちらかの正規表現にマッチ
 - ~[]~ :囲んだ中の文字のどれかにマッチ
+- ~[^]~ :囲んだ中の文字のどれか以外にマッチ
 - ~^~ :文字列の先頭
 - ~$~ :文字列の終端
 - ~()~ :囲んだ正規表現で ~*~ とかの対象
+- ~\d~, ~\w~, ~\s~ : 数字にマッチ, 表示可能な文字にマッチ、スペースや空白文字にマッチ
+** アルファベット？数字？
+- いわゆる全角数字はどうなるのか
+- ユニコードって怖い
+- ~re.ASCII~ を使おう
+#+begin_src python
+  >>> "０".isalnum()
+  True
+  >>> int("０")
+  0
+  >>> re.search(r"\d+", "abcd1234１２３４12a").group(0)
+  '1234１２３４12'
+  >>> re.search(r"\d+", "abcd1234１２３４12a", re.ASCII).group(0)
+  '1234'
+#+end_src
 ** 正規表現：名前付きキャプチャ
 - ~()~ でキャプチャしたのを置換文字列で使う
   - ~\g<1>~ とか..
@@ -300,16 +317,12 @@
 - ちゃんとしたプロダクトにするならbeautifulsoupとか専用のパーサー使うところですが
 - 手元で動けばいいんじゃい！というDIYとown your riskで！
 #+begin_src python
-  >>> s = """
-  ... <html>
-  ... <body>
+  >>> s = """<html><body>
   ... <ul>
   ... <li><a href="https://example.com">example</a></li>
   ... <li><a href="https://docs.python.org" target="_blank">Python Document</a></li>
   ... </ul>
-  ... </body>
-  ... </html>
-  ... """
+  ... </body></html>"""
   >>> for m in re.finditer(r"<a\s([^>]*)href=\"(?P<link>[^>\"]*)\"([^>]*)>", s):
   ...     print(m.groupdict())
   ...     
@@ -318,7 +331,13 @@
 #+end_src
 ** 正規表現：沼
 - 先読みとか後読みとかのパターン
-- 文字クラス
+  - ~(?=...)~, ~(?!...)~, ~(?<=...)~, ~(?<!...)~
+  - このプリフィックスがついている後ろの番号部分だけマッチとか
+  - 記法覚えられないので、正規表現で抽出後にstripとかsliceで取り除くほうが楽だと思う
+- ユニコード文字クラス
+  - カタカナだけ取り出すとか
+  - たまに便利
+
 ** csvでいいです
 - 行ごとの処理で生きていたい
 - csvモジュールあるし
@@ -435,6 +454,7 @@ b processed
           logger.exception(e)
           sys.exit(255)
 #+end_src
+- AIエージェントさんもこれで安心です :)
 * おわりに
 ** まとめ
 - 標準ライブラリ LOVE <3

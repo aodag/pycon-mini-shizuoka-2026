@@ -1,3 +1,5 @@
 *.tex
 *.pdf
 __pycache__
+*.data.minted
+_minted-slide
